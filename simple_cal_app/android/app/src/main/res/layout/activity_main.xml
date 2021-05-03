@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_output"
+            android:text="결과 출력"
+            android:textSize="23dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_1"
+                android:text="입력 1\n출력 1"
+                android:textSize="19dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:id="@+id/button_2"
+                android:text="입력 2\n출력 1"
+                android:textSize="19dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:id="@+id/button_3"
+                android:text="입력 1+1\n출력 1"
+                android:textSize="19dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:id="@+id/button_4"
+                android:text="입력 1+1\n출력 1+1"
+                android:textSize="19dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
