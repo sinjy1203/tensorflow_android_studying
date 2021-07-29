@@ -1,9 +1,12 @@
 ##
 import math
 import numpy as np
+from pathlib import Path
 import tensorflow as tf
 from tensorflow import keras
 import matplotlib.pyplot as plt
+
+from util import *
 
 mnist = keras.datasets.mnist.load_data()
 
@@ -11,24 +14,6 @@ mnist = keras.datasets.mnist.load_data()
 (x_train, y_train), (x_test, y_test) = mnist
 x_train = (x_train / 255.)[..., np.newaxis]
 x_test = (x_test / 255.)[..., np.newaxis]
-
-##
-def show_sample_data(x_train, y_train, sample_n=25):
-    sample_x = np.squeeze((x_train[:25] * 255), -1)
-    sample_y = y_train[:25]
-
-    fig = plt.figure(figsize=(8, 7))
-    rows = cols = math.sqrt(sample_n)
-
-    idx = 1
-    for x, y in zip(sample_x, sample_y):
-        ax = fig.add_subplot(rows, cols, idx)
-        ax.imshow(x, cmap='gray')
-        ax.set_xlabel("target: {}".format(str(y)))
-        ax.set_xticks([]), ax.set_yticks([])
-        idx += 1
-
-    plt.show()
 
 ##
 show_sample_data(x_train, y_train)
@@ -40,7 +25,41 @@ for i in range(3):
     model.add(keras.layers.Conv2D(filters=100, kernel_size=3,
                                   activation='relu'))
 model.add(keras.layers.Flatten())
-model.add(keras.layers.Dense(10))
+model.add(keras.layers.Dense(10, activation='softmax'))
 
 ##
 model.summary()
+
+##
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy',
+             metrics=['accuracy'])
+model.fit(x_train, y_train, batch_size=32, epochs=3)
+
+##
+test_loss, test_acc = model.evaluate(x_test, y_test)
+
+##
+pred = model.predict(x_test)
+pred_arg = np.argmax(pred, axis=-1)
+
+##
+show_sample_data(x_test, pred_arg)
+
+##
+model_dir = Path('model')
+model_dir.mkdir(exist_ok=True)
+
+##
+model.save(model_dir)
+
+##
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+##
+f = open('mnist.tflite', 'wb')
+f.write(tflite_model)
+f.close()
+
+##
+
