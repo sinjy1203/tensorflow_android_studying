@@ -18,3 +18,10 @@ def show_sample_data(x_train, y_train, sample_n=25):
         idx += 1
 
     plt.show()
+
+def show_image(image, label):
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.imshow(image, cmap='gray')
+    ax.set_xlabel('label: {}'.format(label), fontsize=15)
+    plt.show()
